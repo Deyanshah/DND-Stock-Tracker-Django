@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Page</title>
+</head>
+<body>
+    <div>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <form method="POST" action="{% url 'update_quant' %}">
+        {% csrf_token %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Current Quantity</th>
+                    <th>Adjust Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.pname }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>
+                        <input type="number" id="quantity_{{ product.pid }}" name="quantity_{{ product.pid }}" placeholder="Enter quantity" >
+                        <button type="submit" name="action" value="add_{{ product.pid }}">Add</button>
+                        <button type="submit" name="action" value="sub_{{ product.pid }}">Subtract</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+    <h1>Hello Admin!</h1>
+</body>
+</html>
